@@ -8,7 +8,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-
 public class Ingredient implements Parcelable {
 
     public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
@@ -38,6 +37,7 @@ public class Ingredient implements Parcelable {
         this.quantity = in.readString();
         this.measure = in.readString();
         this.ingredient = in.readString();
+
 
     }
 
@@ -71,6 +71,8 @@ public class Ingredient implements Parcelable {
         this.ingredient = ingredient;
 
     }
+
+
 
     @Override
     public int describeContents() {

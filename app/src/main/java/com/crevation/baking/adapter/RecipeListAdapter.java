@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crevation.baking.R;
+import com.crevation.baking.app.BakingApp;
 import com.crevation.baking.data.model.Recipe;
 
 import java.util.ArrayList;
@@ -40,6 +42,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         TextView recipe_ingredient;
         @BindView(R.id.recipe_step)
         TextView recipe_step;
+        @BindView(R.id.recipe_img)
+        ImageView recipe_img;
 
         public RecipeViewHolder(View itemView) {
 
@@ -74,6 +78,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         recipeViewHolder.recipe_name.setText(recipe.getName());
         recipeViewHolder.recipe_ingredient.setText(ingredient);
         recipeViewHolder.recipe_step.setText(steps);
+
+        if (recipe.getImage() != null && !recipe.getImage().equals(""))
+            BakingApp.loadImageFromResourceInto(BakingApp.getInstance(), recipeViewHolder.recipe_img,
+                    recipe.getImage());
+
     }
 
     @Override
