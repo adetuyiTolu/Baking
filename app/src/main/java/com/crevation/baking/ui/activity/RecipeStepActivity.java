@@ -41,7 +41,7 @@ public class RecipeStepActivity extends AppCompatActivity implements StepFragmen
 
     @Nullable
     @BindView(R.id.txt_help)
-    TextView mTabHelp;
+    TextView mHelp;
 
     private Recipe mRecipe;
 
@@ -135,8 +135,8 @@ public class RecipeStepActivity extends AppCompatActivity implements StepFragmen
 
         if (mDetailFrame != null) {
 
-            if (mTabHelp != null) {
-                mTabHelp.setVisibility(View.GONE);
+            if (mHelp != null) {
+                mHelp.setVisibility(View.GONE);
             }
 
             Bundle bundle = new Bundle();

@@ -20,6 +20,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Adetuyi Tolu
@@ -58,10 +59,10 @@ public class RecipeListActivityTest {
     public void clickRecyclerViewItemOpensRecipeStepListActivity(){
 
         // Click on the RecyclerView item at position 1
-        onView(withId(R.id.recipe_list_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.recipe_container)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
 
-        onView(withId(R.id.step_recycler)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_container)).check(matches(isDisplayed()));
 
 
     }
