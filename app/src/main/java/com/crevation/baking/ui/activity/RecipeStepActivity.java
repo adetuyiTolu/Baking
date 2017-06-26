@@ -7,6 +7,7 @@ package com.crevation.baking.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +30,10 @@ import com.crevation.baking.util.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.crevation.baking.util.Constants.ING_FRAG;
+import static com.crevation.baking.util.Constants.RECIPE_EXTRA;
+import static com.crevation.baking.util.Constants.STEP_FRAG;
+
 public class RecipeStepActivity extends AppCompatActivity implements StepFragment.StepListener,
         RecipeStepContract.View {
 
@@ -45,7 +50,10 @@ public class RecipeStepActivity extends AppCompatActivity implements StepFragmen
 
     private Recipe mRecipe;
 
+    Fragment mRecipeFragment;
+
     RecipeStepContract.Presenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +68,29 @@ public class RecipeStepActivity extends AppCompatActivity implements StepFragmen
 
         new RecipeStepPresenter(this);
 
-        if (getIntent().getParcelableExtra(Constants.RECIPE_EXTRA) != null) {
-            mRecipe = getIntent().getParcelableExtra(Constants.RECIPE_EXTRA);
+        if (getIntent().getParcelableExtra(RECIPE_EXTRA) != null) {
+            mRecipe = getIntent().getParcelableExtra(RECIPE_EXTRA);
             getSupportActionBar().setTitle(mRecipe.getName());
         }
-        showRecipe();
+        showRecipe(savedInstanceState);
     }
 
-    private void showRecipe() {
+    private void showRecipe(Bundle savedInstanceState) {
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.RECIPE_EXTRA, mRecipe);
-        RecipeFragment recipeStepFragment = new RecipeFragment();
+        bundle.putParcelable(RECIPE_EXTRA, mRecipe);
 
-        if (getSupportFragmentManager().findFragmentByTag(Constants.STEP_TAG) == null) {
+        if (savedInstanceState != null) {
 
-            recipeStepFragment.setArguments(bundle);
+            mRecipeFragment = getSupportFragmentManager().getFragment(savedInstanceState, STEP_FRAG);
+
+        } else {
+
+            mRecipeFragment = new RecipeFragment();
+            mRecipeFragment.setArguments(bundle);
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.recipe_container, recipeStepFragment, Constants.STEP_TAG);
+                    .replace(R.id.recipe_container, mRecipeFragment, Constants.STEP_TAG);
             transaction.commit();
         }
 
@@ -127,6 +140,18 @@ public class RecipeStepActivity extends AppCompatActivity implements StepFragmen
 
         getMenuInflater().inflate(R.menu.widget, menu);
         return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+
+        if (mRecipeFragment.isAdded()) {
+            getSupportFragmentManager().putFragment(outState,
+                    STEP_FRAG, mRecipeFragment);
+        }
 
     }
 

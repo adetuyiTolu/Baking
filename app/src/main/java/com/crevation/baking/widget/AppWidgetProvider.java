@@ -37,7 +37,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
         if (recipe.equals("")) {
             views.setTextViewText(R.id.widget_info,
-                    "No recipe added, Add from recipe detail option menu to display its ingredients");
+                    "No recipe added, Add from recipe detail option menu");
         } else {
             views.setTextViewText(R.id.widget_info,"");
             views.setTextViewText(R.id.widget_recipe_name, recipe + " Ingredients");

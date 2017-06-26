@@ -7,6 +7,7 @@ package com.crevation.baking.ui.fragment;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.crevation.baking.R;
@@ -28,6 +30,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.crevation.baking.util.Constants.ING_BUNDLE;
+import static com.crevation.baking.util.Constants.ING_FRAG;
+import static com.crevation.baking.util.Constants.STEP_BUNDLE;
+
 
 public class IngredientFragment extends Fragment {
 
@@ -35,6 +41,7 @@ public class IngredientFragment extends Fragment {
     RecyclerView ingredient_recycler;
     private ArrayList<Ingredient> ingredientArrayList;
     private Unbinder unbinder;
+    Parcelable mListState;
 
     public IngredientFragment() {
         // Required empty public constructor
@@ -47,6 +54,9 @@ public class IngredientFragment extends Fragment {
         if (getArguments().getParcelableArrayList(Constants.BUNDLE_INGREDIENT) != null) {
             ingredientArrayList = getArguments().getParcelableArrayList(Constants.BUNDLE_INGREDIENT);
         }
+        if (savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(ING_BUNDLE);
+        }
     }
 
     @Override
@@ -57,6 +67,7 @@ public class IngredientFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         populateList();
+
         return view;
     }
 
@@ -64,8 +75,27 @@ public class IngredientFragment extends Fragment {
 
         IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(ingredientArrayList);
         ingredient_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        //ingredient_recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         ingredient_recycler.setAdapter(ingredientListAdapter);
+        restoreState();
+    }
+
+
+    public void restoreState() {
+
+        if (mListState != null) {
+
+            Toast.makeText(getActivity(), "state retrieved", Toast.LENGTH_SHORT).show();
+            ingredient_recycler.getLayoutManager().onRestoreInstanceState(mListState);
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        mListState = ingredient_recycler.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(ING_BUNDLE, mListState);
     }
 
     @Override

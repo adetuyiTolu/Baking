@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
 import com.crevation.baking.R;
@@ -22,6 +23,9 @@ import com.crevation.baking.util.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.crevation.baking.util.Constants.ING_FRAG;
+import static com.crevation.baking.util.Constants.STEP_FRAG;
 
 public class RecipeFragment extends Fragment {
 
@@ -34,7 +38,8 @@ public class RecipeFragment extends Fragment {
 
     private Unbinder unbinder;
     private Recipe recipe;
-
+    Fragment mIngredientFragment;
+    Fragment mStepFragment;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -57,30 +62,57 @@ public class RecipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        setUpStepAndIngredient();
+        setUpStepAndIngredient(savedInstanceState);
         return view;
     }
 
 
-    private void setUpStepAndIngredient() {
+    private void setUpStepAndIngredient(Bundle savedInstanceState) {
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(Constants.BUNDLE_INGREDIENT, recipe.getIngredients());
 
-        Bundle bundle1 = new Bundle();
-        bundle1.putParcelableArrayList(Constants.BUNDLE_STEP, recipe.getSteps());
+        if (savedInstanceState != null) {
 
-        IngredientFragment ingredientTabFragment = new IngredientFragment();
-        ingredientTabFragment.setArguments(bundle);
+            mIngredientFragment = getActivity().getSupportFragmentManager()
+                    .getFragment(savedInstanceState, ING_FRAG);
+            mStepFragment = getActivity().getSupportFragmentManager()
+                    .getFragment(savedInstanceState, STEP_FRAG);
 
-        StepFragment stepFragment = new StepFragment();
+        } else {
 
-        stepFragment.setArguments(bundle1);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.ingredient_frag, ingredientTabFragment).commit();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.step_frag, stepFragment).commit();
+            Bundle ingredientBundle = new Bundle();
+            ingredientBundle.putParcelableArrayList(Constants.BUNDLE_INGREDIENT, recipe.getIngredients());
 
+            Bundle stepBundle = new Bundle();
+            stepBundle.putParcelableArrayList(Constants.BUNDLE_STEP, recipe.getSteps());
+
+            mIngredientFragment = new IngredientFragment();
+            mIngredientFragment.setArguments(ingredientBundle);
+
+            mStepFragment = new StepFragment();
+            mStepFragment.setArguments(stepBundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.ingredient_frag, mIngredientFragment).commit();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.step_frag, mStepFragment).commit();
+
+        }
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+
+        if (mIngredientFragment.isAdded()) {
+            getActivity().getSupportFragmentManager().putFragment(outState,
+                    ING_FRAG, mIngredientFragment);
+        }
+        if (mStepFragment.isAdded()) {
+            getActivity().getSupportFragmentManager().putFragment(outState,
+                    STEP_FRAG, mStepFragment);
+        }
     }
 
     @Override

@@ -123,7 +123,7 @@ public class RecipeStepDetailFragment extends Fragment {
         mExoPlayerView.setPlayer(player);
         DefaultBandwidthMeter bandwidthMeter1 = new DefaultBandwidthMeter();
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(),
-                Util.getUserAgent(getActivity(), "BookingApp"), bandwidthMeter1);
+                Util.getUserAgent(getActivity(), "BakingApp"), bandwidthMeter1);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoUrl),
                 dataSourceFactory, extractorsFactory, mainHandler, null);

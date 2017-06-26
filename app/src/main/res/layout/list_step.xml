@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:padding="@dimen/wide_space"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/listbg"
     android:layout_height="wrap_content">
 
     <TextView

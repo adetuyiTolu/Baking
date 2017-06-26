@@ -44,8 +44,9 @@ public class RecipeActivityIntentTest {
 
     @Before
     public void registerIdlingResource() {
+
         mIdlingResource = intentsTestRule.getActivity().getIdlingResource();
-        // Register Idling Resources
+
         Espresso.registerIdlingResources(mIdlingResource);
 
        // Stub all external intents
@@ -53,13 +54,10 @@ public class RecipeActivityIntentTest {
 
     }
 
-    /**
-     * Clicks on a RecyclerViewItem and checks if it has intent with parcelable extra with the key RECIPE_EXTRA
-     */
     @Test
     public void clickRecyclerViewItemHasIntentWithAKey() {
 
-        // Click on the Recipe List RecyclerView item at position 1
+
         onView(withId(R.id.recipe_list_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
         //Checks if the key is present

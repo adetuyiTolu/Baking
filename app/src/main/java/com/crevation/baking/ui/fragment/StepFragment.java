@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.crevation.baking.R;
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.crevation.baking.util.Constants.STEP_BUNDLE;
+import static com.crevation.baking.util.Constants.STEP_FRAG;
 
 
 public class StepFragment extends Fragment implements StepListAdapter.StepSelectedListener {
@@ -42,7 +44,6 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
     private StepListener stepListener;
     private LinearLayoutManager mLinearManager;
     Parcelable mListState;
-    Bundle stateBundle;
 
     public interface StepListener {
         void itemClicked(Step step);
@@ -62,16 +63,8 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
         if (savedInstanceState != null) {
             mListState = savedInstanceState.getParcelable(STEP_BUNDLE);
         }
+        setRetainInstance(true);
 
-    }
-
-    @Override
-    public void onPause() {
-
-        super.onPause();
-        stateBundle = new Bundle();
-        Parcelable listState = step_recycler.getLayoutManager().onSaveInstanceState();
-        stateBundle.putParcelable(STEP_BUNDLE, listState);
     }
 
     @Override
@@ -80,45 +73,39 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_step, container, false);
         unbinder = ButterKnife.bind(this, view);
-        mLinearManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        populateList();
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
 
         if (savedInstanceState != null) {
             mListState = savedInstanceState.getParcelable(STEP_BUNDLE);
         }
 
+        mLinearManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        populateList();
+
+        return view;
     }
 
-    @Override
-    public void onResume() {
-
-        super.onResume();
-
-        if (stateBundle != null) {
-            mListState = stateBundle.getParcelable(STEP_BUNDLE);
-        }
+    public void restoreState() {
 
         if (mListState != null) {
+            Toast.makeText(getActivity(), "state retrieved" , Toast.LENGTH_SHORT).show();
             step_recycler.getLayoutManager().onRestoreInstanceState(mListState);
+            step_recycler.getLayoutManager().scrollToPosition(6);
+
         }
     }
 
     private void populateList() {
+
         StepListAdapter stepListAdapter = new StepListAdapter(stepArrayList, this);
         step_recycler.setLayoutManager(mLinearManager);
         step_recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         step_recycler.setAdapter(stepListAdapter);
+        restoreState();
     }
 
     @Override
     public void onStepSelected(int position) {
+
         Step step = stepArrayList.get(position);
         stepListener.itemClicked(step);
 
@@ -126,6 +113,7 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
 
         unbinder.unbind();
@@ -134,9 +122,9 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        super.onSaveInstanceState(outState);
         mListState = step_recycler.getLayoutManager().onSaveInstanceState();
         outState.putParcelable(STEP_BUNDLE, mListState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

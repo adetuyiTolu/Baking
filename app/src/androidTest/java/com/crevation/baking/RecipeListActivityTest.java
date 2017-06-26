@@ -29,7 +29,6 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class RecipeListActivityTest {
 
-    public static final String RECIPE_EXTRA = "RECIPE_EXTRA";
     private IdlingResource mIdlingResource;
 
 
@@ -39,15 +38,13 @@ public class RecipeListActivityTest {
     // Registers any resource that needs to be synchronized with Espresso before the test is run.
     @Before
     public void registerIdlingResource() {
+
         mIdlingResource = activityTestRule.getActivity().getIdlingResource();
         // Register Idling Resources
         Espresso.registerIdlingResources(mIdlingResource);
 
     }
 
-    /**
-     * Checks if the Recipe List RecyclerView is displayed
-     * */
     @Test
     public void RecipeListRecyclerViewIsDisplayed(){
 
@@ -59,7 +56,7 @@ public class RecipeListActivityTest {
     public void clickRecyclerViewItemOpensRecipeStepListActivity(){
 
         // Click on the RecyclerView item at position 1
-        onView(withId(R.id.recipe_container)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.recipe_list_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
 
         onView(withId(R.id.recipe_container)).check(matches(isDisplayed()));
