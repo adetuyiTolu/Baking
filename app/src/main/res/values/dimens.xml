@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="wide_space">16dp</dimen>
+    <dimen name="text">16sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="reduction">-4dp</dimen>
+    <dimen name="img_height">100dp</dimen>
+    <dimen name="space">2dp</dimen>
+
+</resources>

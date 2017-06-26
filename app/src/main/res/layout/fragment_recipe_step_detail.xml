@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:resize_mode="fit"
+        android:id="@+id/mExoPlayerView">
+
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="@dimen/wide_space"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/img_height"
+            android:layout_height="@dimen/img_height"
+            android:id="@+id/stepThumbnail"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/widget_margin"
+            android:layout_marginEnd="@dimen/widget_margin"
+            android:src="@mipmap/ic_launcher"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:overScrollMode="never">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/deep_gray"
+                android:id="@+id/txt_instruction"
+                android:lineSpacingExtra="@dimen/widget_margin"
+                android:textSize="@dimen/text"/>
+        </ScrollView>
+       </LinearLayout>
+
+</LinearLayout>

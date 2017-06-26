@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Baking App</string>
+    <string name="optionMenu">&#8942;</string>
+    <string name="RecipeWidget">Display in Widget</string>
+    <string name="info">Click on one of the steps to view corresponding details.</string>
+    <string name="view_ingredient">Recipe Ingredients</string>
+    <string name="view_step">Recipe Steps</string>
+</resources>

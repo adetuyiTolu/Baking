@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+            app:titleTextColor="@color/white">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/recipe_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="@dimen/space"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary" />
+
+        <FrameLayout
+            android:id="@+id/detail_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+            <TextView
+                android:id="@+id/txt_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="@dimen/wide_space"
+                android:text="@string/info"
+                android:textColor="@color/deep_gray"
+                android:textSize="@dimen/text" />
+        </FrameLayout>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
