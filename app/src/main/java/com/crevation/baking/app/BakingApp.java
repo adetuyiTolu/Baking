@@ -37,8 +37,7 @@ public class BakingApp extends Application {
         initRetrofit();
     }
 
-    public static synchronized BakingApp getInstance()
-    {
+    public static synchronized BakingApp getInstance() {
         return mInstance;
     }
 
@@ -68,8 +67,9 @@ public class BakingApp extends Application {
         NetworkInfo activenet = connectivityManager.getActiveNetworkInfo();
         return activenet != null;
     }
-    public static void loadImageFromResourceInto(Context c, ImageView imageView, String url)
-    {
-        Picasso.with(c).load(url).into(imageView);
+
+    public static void loadImageFromResourceInto(Context c, ImageView imageView, String url) {
+        if (url != null && !url.equals(""))
+            Picasso.with(c).load(url).into(imageView);
     }
 }

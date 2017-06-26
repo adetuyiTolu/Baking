@@ -18,4 +18,5 @@ public class Constants {
     public static final String RECIPE_EXTRA = "RECIPE_EXTRA";
     public static final String PREF_RECIPE = "PREF_RECIPE";
     public static final String KEY_BUNDLE ="KEY_BUNDLE";
+    public static final String STEP_BUNDLE ="STEP_BUNDLE";
 }

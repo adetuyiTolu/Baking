@@ -35,6 +35,7 @@ public class RecipeFragment extends Fragment {
     private Unbinder unbinder;
     private Recipe recipe;
 
+
     public RecipeFragment() {
         // Required empty public constructor
     }
@@ -72,12 +73,13 @@ public class RecipeFragment extends Fragment {
         IngredientFragment ingredientTabFragment = new IngredientFragment();
         ingredientTabFragment.setArguments(bundle);
 
-        StepFragment stepTabFragment = new StepFragment();
-        stepTabFragment.setArguments(bundle1);
+        StepFragment stepFragment = new StepFragment();
+
+        stepFragment.setArguments(bundle1);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.ingredient_frag, ingredientTabFragment).commit();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.step_frag, stepTabFragment).commit();
+                .replace(R.id.step_frag, stepFragment).commit();
 
     }
 
