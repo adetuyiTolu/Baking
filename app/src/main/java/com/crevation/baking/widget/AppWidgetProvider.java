@@ -25,8 +25,8 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_recipe_ingredient_widget);
 
-        SharedPreferences sharedPreferences=context.getSharedPreferences(SHAREDPREF, Context.MODE_PRIVATE);
-        String recipe= sharedPreferences.getString(PREF_RECIPE,"");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHAREDPREF, Context.MODE_PRIVATE);
+        String recipe = sharedPreferences.getString(PREF_RECIPE, "");
 
         // Set up the intent that starts the StackViewService, which will
         // provide the views for this collection.
@@ -35,12 +35,17 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
-        views.setTextViewText(R.id.widget_recipe_name,recipe + " Ingredients");
+        if (recipe.equals("")) {
+            views.setTextViewText(R.id.widget_info,
+                    "No recipe added, Add from recipe detail option menu to display its ingredients");
+        } else {
+            views.setTextViewText(R.id.widget_info,"");
+            views.setTextViewText(R.id.widget_recipe_name, recipe + " Ingredients");
+        }
 
 
         // Set up the RemoteViews object to use a RemoteViews adapter.
         views.setRemoteAdapter(appWidgetId, R.id.ing_widget_list, intent);
-
 
 
         // Instruct the widget manager to update the widget
@@ -56,7 +61,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
 
-        super.onUpdate(context,appWidgetManager,appWidgetIds);
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
