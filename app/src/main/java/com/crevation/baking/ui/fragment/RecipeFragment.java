@@ -91,9 +91,9 @@ public class RecipeFragment extends Fragment {
             mStepFragment = new StepFragment();
             mStepFragment.setArguments(stepBundle);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.ingredient_frag, mIngredientFragment).commit();
+                    .add(R.id.ingredient_frag, mIngredientFragment).commit();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.step_frag, mStepFragment).commit();
+                    .add(R.id.step_frag, mStepFragment).commit();
 
         }
 

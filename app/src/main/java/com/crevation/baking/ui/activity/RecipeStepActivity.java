@@ -90,7 +90,7 @@ public class RecipeStepActivity extends AppCompatActivity implements StepFragmen
             mRecipeFragment.setArguments(bundle);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.recipe_container, mRecipeFragment, Constants.STEP_TAG);
+                    .add(R.id.recipe_container, mRecipeFragment, Constants.STEP_TAG);
             transaction.commit();
         }
 

@@ -44,6 +44,7 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
     private StepListener stepListener;
     private LinearLayoutManager mLinearManager;
     Parcelable mListState;
+    int itemPosition;
 
     public interface StepListener {
         void itemClicked(Step step);
@@ -76,6 +77,7 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
 
         if (savedInstanceState != null) {
             mListState = savedInstanceState.getParcelable(STEP_BUNDLE);
+            itemPosition =savedInstanceState.getInt("position");
         }
 
         mLinearManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -87,9 +89,8 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
     public void restoreState() {
 
         if (mListState != null) {
-            Toast.makeText(getActivity(), "state retrieved" , Toast.LENGTH_SHORT).show();
             step_recycler.getLayoutManager().onRestoreInstanceState(mListState);
-            step_recycler.getLayoutManager().scrollToPosition(6);
+            step_recycler.getLayoutManager().scrollToPosition(itemPosition);
 
         }
     }
@@ -124,6 +125,9 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
 
         mListState = step_recycler.getLayoutManager().onSaveInstanceState();
         outState.putParcelable(STEP_BUNDLE, mListState);
+        itemPosition = ((LinearLayoutManager) step_recycler.getLayoutManager())
+                .findLastVisibleItemPosition();
+        outState.putInt("position", itemPosition);
         super.onSaveInstanceState(outState);
     }
 

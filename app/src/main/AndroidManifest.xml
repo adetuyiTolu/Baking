@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:configChanges="orientation|keyboardHidden|keyboard"
             android:name=".ui.activity.RecipeStepActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

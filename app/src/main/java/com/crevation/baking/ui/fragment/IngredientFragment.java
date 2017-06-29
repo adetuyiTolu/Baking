@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.crevation.baking.R;
 import com.crevation.baking.adapter.IngredientListAdapter;
 import com.crevation.baking.data.model.Ingredient;
+import com.crevation.baking.util.BakingRecycler;
 import com.crevation.baking.util.Constants;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class IngredientFragment extends Fragment {
     private ArrayList<Ingredient> ingredientArrayList;
     private Unbinder unbinder;
     Parcelable mListState;
+    int itemPosition;
 
     public IngredientFragment() {
         // Required empty public constructor
@@ -54,9 +56,7 @@ public class IngredientFragment extends Fragment {
         if (getArguments().getParcelableArrayList(Constants.BUNDLE_INGREDIENT) != null) {
             ingredientArrayList = getArguments().getParcelableArrayList(Constants.BUNDLE_INGREDIENT);
         }
-        if (savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable(ING_BUNDLE);
-        }
+
     }
 
     @Override
@@ -65,7 +65,6 @@ public class IngredientFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_ingredient, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         populateList();
 
         return view;
@@ -76,27 +75,36 @@ public class IngredientFragment extends Fragment {
         IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(ingredientArrayList);
         ingredient_recycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         ingredient_recycler.setAdapter(ingredientListAdapter);
-        restoreState();
+        ingredient_recycler.getLayoutManager().smoothScrollToPosition(ingredient_recycler,
+                null, itemPosition);
+
     }
 
-
-    public void restoreState() {
-
-        if (mListState != null) {
-
-            Toast.makeText(getActivity(), "state retrieved", Toast.LENGTH_SHORT).show();
-            ingredient_recycler.getLayoutManager().onRestoreInstanceState(mListState);
-
-        }
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
         mListState = ingredient_recycler.getLayoutManager().onSaveInstanceState();
+        itemPosition = ((LinearLayoutManager) ingredient_recycler.getLayoutManager())
+                .findLastVisibleItemPosition();
         outState.putParcelable(ING_BUNDLE, mListState);
+        outState.putInt("position", itemPosition);
     }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(ING_BUNDLE);
+            itemPosition = savedInstanceState.getInt("position");
+            ingredient_recycler.getLayoutManager().onRestoreInstanceState(mListState);
+            ingredient_recycler.getLayoutManager().smoothScrollToPosition(ingredient_recycler,
+                    null, itemPosition-1);
+        }
+    }
+
 
     @Override
     public void onDestroy() {
