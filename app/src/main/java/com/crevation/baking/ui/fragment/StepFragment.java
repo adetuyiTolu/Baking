@@ -6,6 +6,7 @@ package com.crevation.baking.ui.fragment;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -142,4 +143,6 @@ public class StepFragment extends Fragment implements StepListAdapter.StepSelect
                     + " must implement StepListener");
         }
     }
+
+
 }
